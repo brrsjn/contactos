@@ -103,7 +103,20 @@ func main() {
 			res.Message = "Ok"
 			c.JSON(res.Code, res)
 		})
-
+		api.PUT("/contacto", func(c *gin.Context) {
+			var payload Contacto
+			c.ShouldBindJSON(&payload)
+			err := db.QueryRow("UPDATE contacto SET nombre = $1, primer_apellido = $2, segundo_apellido = $3, email = $4, numero_celular = $5 WHERE id = $6;",
+				payload.Nombre, payload.PrimerApellido, payload.SegundoApellido, payload.Email, payload.NumeroCelular, payload.Id)
+			if err != nil {
+				panic(err)
+			}
+			res := Response{}
+			res.Code = 200
+			res.Data = payload.Id
+			res.Message = "Ok"
+			c.JSON(res.Code, res)
+		})
 	}
 	r.Run()
 

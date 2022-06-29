@@ -1,18 +1,15 @@
 import React from "react";
-import { Link } from "wouter";
+import { Link, Route } from "wouter";
 import axios from 'axios'
-import Save_Contacts from "./save_contacts";
-import useLocation from "wouter"
+import UPDATE_CONTACTS from "./update_contacts";
 
 
 export default function List_Contacts(props) {
-  const [location, setLocation] = useLocation();
-  console.log(location)
   return (
     <div>
       <table id="customers">
-        <tbody>
-          <tr>
+        <tbody key={props.table}>
+          <tr >
             <th>Nombre</th>
             <th>Primer apellido</th>
             <th>Segundo apellido</th>
@@ -41,14 +38,12 @@ export default function List_Contacts(props) {
                   <td>{contacto.email}</td>
                   <td>{contacto.numero_celular}</td>
                   <td>
-                    <Link to={Save_Contacts}>
-                      <button>Editar</button>
-                    </Link>
+                  <Route path="/actualizar-contacto" component={<UPDATE_CONTACTS contacts={contacto}></UPDATE_CONTACTS>}></Route>
+                  <Link to="/actualizar-contacto"><button>Editar</button></Link>
                   </td>
                   <td>
                       <button onClick={()=>{
                             return axios.delete('http://localhost:8080/api/contacto/'+contacto.id)
-                            .then(() => setLocation("/"));
                       }}>Eliminar</button>
                   </td>
                 </tr>

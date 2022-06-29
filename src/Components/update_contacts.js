@@ -3,13 +3,14 @@ import React, { useState } from "react";
 import { Link } from "wouter";
 import axios from 'axios'
 
-export default function Save_Contacts() {
+export default function Update_Contacts(props) {
   const [formValue, setformValue] = useState({
-    nombre: "",
-    primer_apellido: "",
-    segundo_apellido: "",
-    email: "",
-    numero_celular: "",
+    id: 1,
+    nombre: "props.contacts.nombre",
+    primer_apellido: "props.contacts.primer_apellido",
+    segundo_apellido: "props.contacts.segundo_apellido",
+    email: "props.contacts.email",
+    numero_celular: "props.contacts.numero_celular",
   });
   const handleSubmit = () => {
     // store the states in the form data
@@ -22,7 +23,7 @@ export default function Save_Contacts() {
     };
     return axios({
       url: `http://localhost:8080/api/contacto`,
-      method: `POST`,
+      method: `PUT`,
       data: loginFormData
     })
   };
@@ -38,7 +39,7 @@ export default function Save_Contacts() {
     <div>
       <Link to="/"><button>Volver</button></Link>
       <form onSubmit={handleSubmit}>
-        <h2>Agregar contacto</h2>
+        <h2>Actualizar contacto</h2>
         <input
           type="text"
           name="nombre"
