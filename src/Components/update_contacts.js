@@ -5,16 +5,17 @@ import axios from 'axios'
 
 export default function Update_Contacts(props) {
   const [formValue, setformValue] = useState({
-    id: 1,
-    nombre: "props.contacts.nombre",
-    primer_apellido: "props.contacts.primer_apellido",
-    segundo_apellido: "props.contacts.segundo_apellido",
-    email: "props.contacts.email",
-    numero_celular: "props.contacts.numero_celular",
+    id: props.contacts.id,
+    nombre: props.contacts.nombre,
+    primer_apellido: props.contacts.primer_apellido,
+    segundo_apellido: props.contacts.segundo_apellido,
+    email: props.contacts.email,
+    numero_celular: props.contacts.numero_celular,
   });
   const handleSubmit = () => {
     // store the states in the form data
     const loginFormData = {
+      id: props.contacts.id,
       nombre: formValue.nombre,
       primer_apellido: formValue.primer_apellido,
       segundo_apellido: formValue.segundo_apellido,

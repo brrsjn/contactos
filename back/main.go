@@ -24,7 +24,7 @@ type Response struct {
 }
 
 type Contacto struct {
-	Id              string `json:"id"`
+	Id              int    `json:"id"`
 	Nombre          string `json:"nombre"`
 	PrimerApellido  string `json:"primer_apellido"`
 	SegundoApellido string `json:"segundo_apellido"`
@@ -79,6 +79,28 @@ func main() {
 			c.JSON(res.Code, res)
 		})
 
+		api.GET("/contacto/:id", func(c *gin.Context) {
+			id := c.Param("id")
+			rows, err := db.Query("SELECT * FROM contacto WHERE id = $1", id)
+			if err != nil {
+				panic(err)
+			}
+
+			var contactos []Contacto
+
+			for rows.Next() {
+				var contacto Contacto
+				rows.Scan(&contacto.Id, &contacto.Nombre, &contacto.PrimerApellido,
+					&contacto.SegundoApellido, &contacto.Email, &contacto.NumeroCelular)
+				contactos = append(contactos, contacto)
+			}
+			res := Response{}
+			res.Code = 200
+			res.Data = contactos
+			res.Message = "Ok"
+			c.JSON(res.Code, res)
+		})
+
 		api.POST("/contacto", func(c *gin.Context) {
 			var lastInsertID int
 			var payload Contacto
@@ -106,7 +128,7 @@ func main() {
 		api.PUT("/contacto", func(c *gin.Context) {
 			var payload Contacto
 			c.ShouldBindJSON(&payload)
-			err := db.QueryRow("UPDATE contacto SET nombre = $1, primer_apellido = $2, segundo_apellido = $3, email = $4, numero_celular = $5 WHERE id = $6;",
+			_, err := db.Exec("UPDATE contacto SET nombre = $1, primer_apellido = $2, segundo_apellido = $3, email = $4, numero_celular = $5 WHERE id = $6;",
 				payload.Nombre, payload.PrimerApellido, payload.SegundoApellido, payload.Email, payload.NumeroCelular, payload.Id)
 			if err != nil {
 				panic(err)

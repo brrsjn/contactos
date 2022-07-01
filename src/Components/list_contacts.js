@@ -1,8 +1,6 @@
 import React from "react";
-import { Link, Route } from "wouter";
+import { Link } from "wouter";
 import axios from 'axios'
-import UPDATE_CONTACTS from "./update_contacts";
-
 
 export default function List_Contacts(props) {
   return (
@@ -30,6 +28,7 @@ export default function List_Contacts(props) {
             </tr>
           ) : (
             props.contacts.map((contacto) => {
+              const auxval = `/actualizar-contacto/id_${contacto.id}`;
               return (
                 <tr key={contacto.id}>
                   <td>{contacto.nombre}</td>
@@ -38,8 +37,7 @@ export default function List_Contacts(props) {
                   <td>{contacto.email}</td>
                   <td>{contacto.numero_celular}</td>
                   <td>
-                  <Route path="/actualizar-contacto" component={<UPDATE_CONTACTS contacts={contacto}></UPDATE_CONTACTS>}></Route>
-                  <Link to="/actualizar-contacto"><button>Editar</button></Link>
+                  <Link to={auxval}><button>Editar</button></Link>
                   </td>
                   <td>
                       <button onClick={()=>{

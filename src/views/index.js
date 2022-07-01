@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "wouter";
 import getDataContacts from "../Services/contact";
-import LIST_CONTACTS from "./list_contacts";
+import LIST_CONTACTS from "../Components/list_contacts"
 
 export default function Index() {
   const [contactos, setContactos] = useState();
