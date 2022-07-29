@@ -1,8 +1,15 @@
 import React from "react";
-import { Link } from "wouter";
+import { Link, useLocation, Redirect } from "wouter";
 import axios from 'axios'
 
+
 export default function List_Contacts(props) {
+  const [location, setLocation] = useLocation();
+
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
   return (
     <div>
       <table id="customers">
@@ -40,8 +47,13 @@ export default function List_Contacts(props) {
                   <Link to={auxval}><button>Editar</button></Link>
                   </td>
                   <td>
-                      <button onClick={()=>{
-                            return axios.delete('http://localhost:8080/api/contacto/'+contacto.id)
+                      <button onClick={async()=>{
+                            const response = await axios.delete('http://localhost:8080/api/contacto/'+contacto.id);
+                            console.log(response)
+                            if (response.data.code == 200) {
+                              console.log("Hola")
+                              refreshPage()                            
+                            }
                       }}>Eliminar</button>
                   </td>
                 </tr>

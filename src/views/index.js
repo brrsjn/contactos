@@ -13,7 +13,7 @@ export default function Index() {
   return (
     <div>
           <h1>Listado de contactos</h1>
-        <Link to="agregar-contacto"><button>+Agregar contacto</button></Link>
+        <Link className="agregar_contacto" to="agregar-contacto"><button>+Agregar contacto</button></Link>
         <LIST_CONTACTS contacts={contactos}></LIST_CONTACTS>
     </div>
   );
